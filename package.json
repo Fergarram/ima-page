@@ -1,0 +1,21 @@
+{
+	"name": "ima-page",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --watch build.ts --dev",
+		"build": "bun run build.ts"
+	},
+	"devDependencies": {
+		"@tailwindcss/cli": "^4.1.18",
+		"@types/bun": "latest",
+		"tailwindcss": "^4.1.18"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"shiki": "^3.22.0"
+	}
+}
