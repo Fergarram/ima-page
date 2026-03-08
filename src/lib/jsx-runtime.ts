@@ -1,13 +1,85 @@
-import { useTags, useStaticTags } from "ima";
+import {
+	useTags,
+	useStaticTags,
+	type Child,
+	type TagArgs,
+	type TagFunction,
+	type StaticTagFunction,
+} from "ima";
 
-export function Fragment(props: { children?: any }): any {
+//
+// Types
+//
+
+type TagLookup = Record<string, TagFunction | StaticTagFunction>;
+
+type ComponentFunction = (
+	props: JSXProps,
+) => Element | string | DocumentFragment;
+
+type JSXProps = {
+	children?: Child | Child[];
+	[key: string]: unknown;
+};
+
+type JSXTag = string | ComponentFunction;
+
+//
+// Tags
+//
+
+const is_static = typeof window === "undefined";
+const tags: TagLookup = is_static ? useStaticTags() : useTags();
+
+//
+// JSX Runtime
+//
+
+export function jsx(
+	tag: JSXTag,
+	props: JSXProps,
+): Element | string | DocumentFragment {
+	if (typeof tag === "function") {
+		return tag(props);
+	}
+
+	const { children, ...attrs } = props;
+
+	const child_list: Child[] =
+		children == null
+			? []
+			: Array.isArray(children)
+				? children
+				: [children as Child];
+
+	const tagFn = tags[tag];
+
+	if (tagFn === undefined) return "";
+
+	if (Object.keys(attrs).length > 0) {
+		return tagFn(...([attrs, ...child_list] as TagArgs));
+	}
+
+	return tagFn(...(child_list as TagArgs));
+}
+
+export const jsxs = jsx;
+export const jsxDEV = jsx;
+
+//
+// Fragment
+//
+
+export function Fragment(props: {
+	children?: Child | Child[];
+}): Element | string | DocumentFragment {
 	const children = props.children;
 
-	if (typeof window === "undefined") {
+	if (is_static) {
 		if (Array.isArray(children)) {
 			return children.flat(Infinity).join("");
 		}
-		return children ?? "";
+		return String(children ?? "");
 	}
 
 	if (children == null) {
@@ -16,55 +88,19 @@ export function Fragment(props: { children?: any }): any {
 
 	if (Array.isArray(children)) {
 		const fragment = document.createDocumentFragment();
-		for (const child of children.flat(Infinity)) {
-			if (child != null) {
-				if (child instanceof Node) {
-					fragment.appendChild(child);
-				} else {
-					fragment.appendChild(document.createTextNode(String(child)));
-				}
+		for (const child of children.flat(Infinity) as Child[]) {
+			if (child instanceof Node) {
+				fragment.appendChild(child);
+			} else if (child != null) {
+				fragment.appendChild(document.createTextNode(String(child)));
 			}
 		}
 		return fragment;
 	}
 
-	return children;
+	if (children instanceof Node) {
+		return children as Element;
+	}
+
+	return document.createTextNode(String(children)) as unknown as Element;
 }
-
-/**
- * Automatic JSX runtime function.
- * Called by the compiler for single-child elements.
- */
-export function jsx(tag: string | ((props: any) => any), props: Record<string, any> | null): any {
-	if (typeof tag === "function") {
-		return tag(props || {});
-	}
-
-	const is_static = typeof window === "undefined";
-	const tags = is_static ? useStaticTags() : useTags();
-	const tagFn = (tags as Record<string, (...args: any[]) => any>)[tag];
-
-	const { children, ...attrs } = props || {};
-	const has_attrs = Object.keys(attrs).length > 0;
-
-	if (children == null) {
-		return has_attrs ? tagFn(attrs) : tagFn();
-	}
-
-	if (has_attrs) {
-		return Array.isArray(children) ? tagFn(attrs, ...children) : tagFn(attrs, children);
-	}
-
-	return Array.isArray(children) ? tagFn(...children) : tagFn(children);
-}
-
-/**
- * Automatic JSX runtime function for multiple children.
- * Identical to jsx() since children are already in props.
- */
-export const jsxs = jsx;
-
-/**
- * Development version (same as production for this use case).
- */
-export const jsxDEV = jsx;
