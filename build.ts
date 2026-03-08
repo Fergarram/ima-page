@@ -131,11 +131,15 @@ function injectScripts(html: string): string {
 
 function getOutputPath(file_path: string): string {
 	const relative_path = relative(PAGES_DIR, file_path);
-	const html_path = relative_path
-		.replace(/\.(ts|tsx)$/, ".html")
-		.replace(/index\.html$/, "index.html");
+	const without_ext = relative_path.replace(/\.(ts|tsx)$/, "");
 
-	return join(DIST_DIR, html_path);
+	// If it's already an index file, just swap extension
+	if (without_ext.endsWith("/index") || without_ext === "index") {
+		return join(DIST_DIR, without_ext + ".html");
+	}
+
+	// Otherwise, make it a directory with index.html
+	return join(DIST_DIR, without_ext, "index.html");
 }
 
 async function buildPage(file_path: string): Promise<void> {

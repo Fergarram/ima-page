@@ -11,7 +11,7 @@ export function Header() {
 						<a href="/">README</a>
 					</li>
 					<li>
-						<a href="#examples">Examples</a>
+						<a href="/examples">Examples</a>
 					</li>
 					<li>
 						<a href="#source">Source</a>
