@@ -82,7 +82,7 @@ export default function () {
 				<ClicksExample />
 			</div>
 			<p>
-				Meaning "now" in Japanese, Ima is written in ~700 lines of JavaScript,
+				Meaning "now" in Japanese, Ima is written in ~555 lines of JavaScript,
 				it makes it easy to compose DOM-based reactive UIs without special state
 				management nonsense.
 			</p>
