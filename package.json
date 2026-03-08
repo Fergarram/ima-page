@@ -8,8 +8,8 @@
 		"build": "bun run build.ts"
 	},
 	"devDependencies": {
-		"@tailwindcss/cli": "^4.1.18",
 		"@types/bun": "latest",
+		"bun-plugin-tailwind": "^0.1.2",
 		"tailwindcss": "^4.1.18"
 	},
 	"peerDependencies": {

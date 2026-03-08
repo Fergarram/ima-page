@@ -1,3 +1,4 @@
+import { cn } from "@/lib/cn";
 import { shiki_minimal_dark, shiki_minimal_light } from "@/lib/shiki-themes";
 import { codeToHtml } from "shiki";
 
@@ -9,6 +10,7 @@ type CodeSnippetProps = {
 	language: string;
 	content: string;
 	theme?: "dark" | "light";
+	show_line_numbers?: boolean;
 };
 
 //
@@ -20,11 +22,22 @@ function wrapUrlsInAnchors(html: string): string {
 
 	return html.replace(url_pattern, (url) => {
 		return (
-			<a class="text-inherit!" href={url} target="_blank" rel="noopener noreferrer">
+			<a
+				class="text-inherit!"
+				href={url}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
 				{url}
 			</a>
 		);
 	});
+}
+
+function computeLineNumberWidth(content: string): string {
+	const line_count = content.split("\n").length;
+	const digit_count = String(line_count).length;
+	return `${digit_count * 0.5 + 0.5}rem`;
 }
 
 //
@@ -32,7 +45,7 @@ function wrapUrlsInAnchors(html: string): string {
 //
 
 export async function CodeSnippet(props: CodeSnippetProps) {
-	const { language, content, theme = "dark" } = props;
+	const { language, content, theme = "dark", show_line_numbers = true } = props;
 
 	let html = await codeToHtml(content, {
 		lang: language,
@@ -41,5 +54,17 @@ export async function CodeSnippet(props: CodeSnippetProps) {
 
 	html = wrapUrlsInAnchors(html);
 
-	return <div innerHTML={html} />;
+	const line_number_width = computeLineNumberWidth(content);
+	const css_var = `--line-number-width: ${line_number_width};`;
+
+	return (
+		<div
+			class={cn(
+				"overflow-auto inset-0",
+				show_line_numbers ? "show-line-numbers p-2" : "p-5",
+			)}
+			style={show_line_numbers ? css_var : ""}
+			innerHTML={html}
+		/>
+	);
 }

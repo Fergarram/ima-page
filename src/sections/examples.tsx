@@ -1,8 +1,22 @@
+import { CodeSnippet } from "@/components/code-snippet";
+import { EmbedPreview } from "@/components/embed-preview";
+import { Tabs } from "@/components/tabs";
+
+const res = await fetch(
+	"https://raw.githubusercontent.com/Fergarram/ima-page/refs/heads/main/src/components/tabs.tsx",
+);
+const ima_page_src = await res.text();
+
+const code_snippet = await CodeSnippet({
+	language: "tsx",
+	content: ima_page_src,
+});
+
 export default function () {
 	return (
 		<>
 			<h2 id="examples">EXAMPLES</h2>
-			<ol class="list-decimal pl-6 text-fg-soft">
+			<ol class="text-fg-soft">
 				<li>
 					<a href="#static-website">Static website</a>
 				</li>
@@ -12,75 +26,62 @@ export default function () {
 				<li>
 					<a href="#infinite-canvas">Infinite canvas</a>
 				</li>
-				{/*<li>
+				<li>
 					<a href="#game-engine">Game engine</a>
-				</li>*/}
-				{/*<li>
-					<a disabled class="pointer-events-none">
-						Map app (example comming soon)
-					</a>
-				</li>*/}
+				</li>
+				<li>
+					<a href="#map-app">Map app</a>
+				</li>
 			</ol>
 			<h3 id="static-website">STATIC WEBSITE</h3>
 			<p>
-				This very website is built using Ima. It uses Bun to scan TSX files, renders them to
-				static HTML at build time, and automatically injects client-side JavaScript for any
-				components marked with "hydrate" like how Next.js has the "use client" directive.
+				This very website is built using Ima. It uses Bun to scan TSX files,
+				renders them to static HTML at build time, and automatically injects
+				client-side JavaScript for any components marked with "hydrate" like how
+				Next.js has the "use client" directive.
 			</p>
 			<p>
-				Although this is not a highly-interactive page, Ima still makes it feel simpler and
-				easier to compose static interfaces.
+				Although this is not a highly-interactive page, Ima still makes it feel
+				simpler and easier to compose static interfaces.
 			</p>
 			<p>
-				You can look at the source code on GitHub at{" "}
-				<a href="https://github.com/fergarram/ima-page">
+				You can look at the full source code on GitHub at{" "}
+				<a
+					href="https://github.com/fergarram/ima-page"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					https://github.com/fergarram/ima-page
 				</a>
-				.
+				, but here is an example of a client component:
 			</p>
-			<h3 id="clicker-game">CLICKER GAME</h3>I made a clicker game called "How the fuck will I
-			pay this". It's an incremental about paying debt. You can inspect the code and play with
-			it.
-			<figure>
-				<iframe
-					src="https://howthefuckwillipaythis.netlify.app"
-					class="w-full aspect-video overflow-hidden rounded-2"
-				></iframe>
-				<figcaption class="border-t border-line h-7 flex items-center justify-between">
-					<a
-						class="underline"
-						href="https://howthefuckwillipaythis.netlify.app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						How the fuck will I pay this
-					</a>
-					<a
-						href="https://howthefuckwillipaythis.netlify.app/?clone-editor=true"
-						class="flex items-center gap-1"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Open in editor{" "}
-						<svg
-							class="w-4 h-4"
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-						>
-							<path d="M18 13v6H5V8h6" />
-							<polyline points="15 3 21 3 21 9" />
-							<line x1="10" y1="14" x2="21" y2="3" />
-						</svg>
-					</a>
-				</figcaption>
-			</figure>
+			<Tabs
+				active="main"
+				// class="max-w-5xl!"
+				items={[
+					{
+						name: "main",
+						label: "main.tsx",
+						class: "h-128", // "h-[80dvh]",
+						content: code_snippet,
+					},
+				]}
+			/>
+			<h3 id="clicker-game">CLICKER GAME</h3>
 			<p>
-				This game was made in a weekend. It uses vanilla JS instead of JSX. It also uses my{" "}
+				I made a clicker game called "How the fuck will I pay this". It's an
+				incremental about paying debt. You can inspect the code and play with
+				it.
+			</p>
+			<p>BTW, the preview below is an iframe.</p>
+			<EmbedPreview
+				src="https://fernando.computer/games/how-the-fuck-will-i-pay-this"
+				title="How the fuck will I pay this"
+				editor_url="https://fernando.computer/games/how-the-fuck-will-i-pay-this/?clone-editor=true"
+			/>
+			<p>
+				This game was made in a weekend. It uses vanilla JS instead of JSX. It
+				also uses my{" "}
 				<a
 					href="https://github.com/Fergarram/om/blob/236646ee732e21e83e58712e2b7cb07405037723/system/modules/client/%40std/blob-loader.js"
 					target="_blank"
@@ -91,7 +92,11 @@ export default function () {
 				library to make the game self-contained and bundler-free.
 			</p>
 			<h3 id="infinite-canvas">INFINITE CANVAS</h3>
-			<iframe src="https://vps.fernando.computer/desktop" class="w-full aspect-video"></iframe>
+			<EmbedPreview
+				src="https://vps.fernando.computer/desktop"
+				title="Infinite Canvas"
+				editor_url="https://vps.fernando.computer/desktop?clone-editor=true"
+			/>
 			{/*<h3 id="game-engine">GAME ENGINE</h3>
 			<p>A game engine built with Ima.js.</p>*/}
 		</>

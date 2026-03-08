@@ -1,8 +1,7 @@
 "hydrate";
 
 import { cn } from "@/lib/cn";
-// import { Test } from "./test";
-import { decodeProps, encodeProps } from "@/lib/hydration";
+import { encodeProps, hydrateComponents, IS_CLIENT } from "@/lib/hydration";
 import { ScrollOverlay } from "@/components/scroll-overlay";
 
 //
@@ -13,10 +12,22 @@ type TabItem = {
 	name: string;
 	label: string;
 	content: string;
+	class?: string;
+};
+
+type TabsMeta = {
+	active: string;
+	class?: string;
+	items: {
+		name: string;
+		label: string;
+		class?: string;
+	}[];
 };
 
 type TabsProps = {
 	active: string;
+	class?: string;
 	items: TabItem[];
 };
 
@@ -24,67 +35,76 @@ type TabsProps = {
 // Client-side hydration
 //
 
-if (typeof window !== "undefined") {
-	const tab_components = Array.from(document.querySelectorAll("[component='tabs']"));
+hydrateComponents<TabsMeta>("tabs", (el, props) => {
+	const panel_elements = Array.from(el.querySelectorAll("[data-tab-panel]"));
 
-	for (const tab_component of tab_components) {
-		const encoded = tab_component.getAttribute("props") || "";
-		const props = decodeProps<TabsProps>(encoded);
-		tab_component.replaceWith(<Tabs {...props} />);
-	}
-}
+	const items: TabItem[] = props.items.map((item, i) => ({
+		...item,
+		content: panel_elements[i]?.innerHTML || "",
+	}));
+
+	el.replaceWith(
+		<Tabs active={props.active} class={props.class} items={items} />,
+	);
+});
 
 //
 // Component
 //
 
-export function Tabs({ active, items }: TabsProps) {
+export function Tabs({ active, items, class: classes }: TabsProps) {
 	let current_tab = active;
 
-	const is_hydrating = typeof window !== "undefined";
+	const meta: TabsMeta = {
+		active,
+		class: classes,
+		items: items.map(({ content, ...rest }) => rest),
+	};
 
 	return (
 		<section
 			component="tabs"
-			props={!is_hydrating ? encodeProps({ active, items }) : null}
-			class="grid w-full max-w-full"
+			props={!IS_CLIENT ? encodeProps(meta) : null}
+			class={cn(
+				"relative grid w-full shadow-[0_0_0_1px_var(--color-line)]",
+				classes,
+			)}
 		>
-			<div class="flex w-full overflow-x-auto hide-scrollbars relative">
+			<div class="flex w-full overflow-x-auto hide-scrollbars relative z-10">
 				{items.map((item) => (
 					<button
+						type="button"
 						data-tab={item.name}
 						onClick={() => {
 							current_tab = item.name;
 						}}
 						class={() =>
 							cn(
-								"flex whitespace-nowrap shrink-0 items-center justify-center px-5 min-w-16 h-7 border border-b-0 bg-base",
+								"flex whitespace-nowrap shrink-0 items-center justify-center px-5 min-w-16 h-7 border border-t-0 first:border-l-0 bg-base",
 								current_tab === item.name
-									? "border-line relative z-20"
-									: "border-transparent hover:cursor-pointer border-b-base",
+									? "border-line relative z-20 bg-surface-code border-b-transparent"
+									: "border-transparent border-b-line hover:cursor-pointer",
 							)
 						}
 					>
 						{item.label}
 					</button>
 				))}
-				<ScrollOverlay />
-				<div class="w-full absolute bottom-0 left-0 h-px bg-line z-10"></div>
+				<ScrollOverlay class="border-b border-line grow" />
 			</div>
 			{items.map((item) => (
 				<div
-					data-tab={item.name}
+					data-tab-panel={item.name}
 					class={() =>
 						cn(
-							"w-full grid overflow-auto p-5 border border-line border-t-0 bg-base",
+							"w-full grid overflow-hidden bg-surface-code",
 							current_tab !== item.name && "hidden",
+							item.class,
 						)
 					}
 					innerHTML={item.content}
 				/>
 			))}
-			{/* This doesn't have a "hydrate"; but it will run as client because it was imported by this client component */}
-			{/*<Test />*/}
 		</section>
 	);
 }

@@ -1,7 +1,7 @@
+import tailwind_plugin from "bun-plugin-tailwind";
 import { readdir, mkdir, writeFile, cp, rm, readFile } from "node:fs/promises";
 import { join, relative, dirname } from "node:path";
-import { watch } from "node:fs";
-import { spawn } from "node:child_process";
+import { Dirent, watch } from "node:fs";
 
 //
 // Constants
@@ -11,7 +11,7 @@ const PAGES_DIR = join(import.meta.dir, "src/pages");
 const COMPONENTS_DIR = join(import.meta.dir, "src/components");
 const PUBLIC_DIR = join(import.meta.dir, "public");
 const DIST_DIR = join(import.meta.dir, "dist");
-const PORT = 3000;
+const PORT = 4040;
 const IS_DEV = process.argv.includes("--dev");
 
 //
@@ -38,7 +38,7 @@ async function getPageFiles(dir: string): Promise<string[]> {
 }
 
 async function getClientComponents(dir: string): Promise<string[]> {
-	let entries;
+	let entries: Dirent[] = [];
 	try {
 		entries = await readdir(dir, { withFileTypes: true, recursive: true });
 	} catch (error) {
@@ -83,6 +83,7 @@ async function buildClientComponents(): Promise<void> {
 	const result = await Bun.build({
 		entrypoints: client_entrypoints,
 		outdir: join(DIST_DIR, "components"),
+		plugins: [tailwind_plugin],
 		splitting: true,
 		target: "browser",
 		minify: !IS_DEV,
@@ -100,9 +101,11 @@ async function buildClientComponents(): Promise<void> {
 	// Collect entry point paths relative to dist for script tag injection
 	client_script_paths = result.outputs
 		.filter((output) => output.kind === "entry-point")
-		.map((output) => "/" + relative(DIST_DIR, output.path));
+		.map((output) => `/${relative(DIST_DIR, output.path)}`);
 
-	console.log(`Built ${client_entrypoints.length} client component(s) with splitting`);
+	console.log(
+		`Built ${client_entrypoints.length} client component(s) with splitting`,
+	);
 }
 
 function generateScriptTags(): string {
@@ -160,7 +163,7 @@ async function copyPublicFiles(): Promise<void> {
 	try {
 		await cp(PUBLIC_DIR, DIST_DIR, { recursive: true });
 		console.log("Copied public files to dist");
-	} catch (error) {
+	} catch (_) {
 		// Public directory might not exist, skip silently
 	}
 }
@@ -169,7 +172,7 @@ async function cleanDist(): Promise<void> {
 	try {
 		await rm(DIST_DIR, { recursive: true, force: true });
 		console.log("Cleaned dist directory");
-	} catch (error) {
+	} catch (_) {
 		// Dist might not exist, skip silently
 	}
 }
@@ -178,6 +181,7 @@ async function buildAll(): Promise<void> {
 	await cleanDist();
 	await copyPublicFiles();
 
+	await buildCSS();
 	await buildClientComponents();
 
 	const page_files = await getPageFiles(PAGES_DIR);
@@ -219,7 +223,7 @@ function startServer(): void {
 function startPublicWatcher(): void {
 	let debounce_timer: Timer | null = null;
 
-	watch(PUBLIC_DIR, { recursive: true }, (event, filename) => {
+	watch(PUBLIC_DIR, { recursive: true }, (_, filename) => {
 		if (debounce_timer) clearTimeout(debounce_timer);
 
 		debounce_timer = setTimeout(async () => {
@@ -231,46 +235,51 @@ function startPublicWatcher(): void {
 	console.log(`Watching public directory for changes...\n`);
 }
 
-function runTailwind(): void {
-	const args = ["@tailwindcss/cli", "-i", "./src/global.css", "-o", "./dist/styles.css"];
+function startCSSWatcher(): void {
+	let debounce_timer: Timer | null = null;
+	const css_file = join(import.meta.dir, "src/global.css");
 
-	if (IS_DEV) {
-		args.push("--watch");
-	} else {
-		args.push("--minify");
-	}
+	watch(css_file, (_) => {
+		if (debounce_timer) clearTimeout(debounce_timer);
 
-	const tailwind_process = spawn("npx", args, {
-		stdio: "inherit",
-		shell: true,
+		debounce_timer = setTimeout(async () => {
+			console.log(`\nCSS changed, rebuilding...`);
+			await buildCSS();
+		}, 50);
 	});
 
-	tailwind_process.on("error", (error) => {
-		console.error(`Tailwind CSS error: ${error.message}`);
+	console.log(`Watching global.css for changes...`);
+}
+
+async function buildCSS(): Promise<void> {
+	const css_entrypoint = join(import.meta.dir, "src/global.css");
+
+	const result = await Bun.build({
+		entrypoints: [css_entrypoint],
+		outdir: DIST_DIR,
+		plugins: [tailwind_plugin],
+		minify: !IS_DEV,
 	});
 
-	if (IS_DEV) {
-		console.log("Tailwind CSS watching for changes...");
-	} else {
-		tailwind_process.on("close", (code) => {
-			if (code !== 0) {
-				console.error(`Tailwind CSS exited with code ${code}`);
-			} else {
-				console.log("Tailwind CSS build complete");
-			}
-		});
+	if (!result.success) {
+		console.error("CSS build failed:");
+		for (const log of result.logs) {
+			console.error(log);
+		}
+		return;
 	}
+
+	console.log("Built CSS");
 }
 
 //
 // Code execution
 //
 
-runTailwind();
-
 await buildAll();
 
 if (IS_DEV) {
 	startServer();
 	startPublicWatcher();
+	startCSSWatcher();
 }

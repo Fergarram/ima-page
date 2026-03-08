@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 
-export function ScrollOverlay(props: any) {
+export function ScrollOverlay(props: { class?: string }) {
 	return (
 		<div
 			class={cn(

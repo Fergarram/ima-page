@@ -8,7 +8,7 @@ export const shiki_minimal_dark: ThemeRegistration = {
 	name: "minimal-dark",
 	type: "dark",
 	colors: {
-		"editor.background": "var(--color-base)",
+		"editor.background": "transparent",
 		"editor.foreground": "#ffffff",
 		"editor.lineHighlightBackground": "#aafee717",
 		"editorLineNumber.foreground": "#444444",
