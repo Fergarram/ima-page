@@ -30,7 +30,7 @@ export function SlideLayout(props: SlideLayoutProps) {
 			>
 				<main class="w-screen h-screen flex flex-col">
 					<div class="flex-1 flex items-center justify-center px-8 py-6">
-						<div class="max-w-6xl w-full flex flex-col gap-8">
+						<div class="max-w-7xl w-full flex flex-col gap-8">
 							{props.children}
 						</div>
 					</div>

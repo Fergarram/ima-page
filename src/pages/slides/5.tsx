@@ -1,27 +1,21 @@
 import { SlideLayout } from "@/components/slide-layout";
 import { CodeSnippet } from "@/components/code-snippet";
 
-const hydrate_example = await CodeSnippet({
+const simple_island = await CodeSnippet({
 	language: "tsx",
 	show_line_numbers: false,
-	content: `"hydrate";
+	content: `// Simple island: clicks-example.tsx
+"hydrate";
 
-//
-// Client-side hydration
-//
-
+// Hydration: find placeholder, replace with live version
 if (typeof window !== "undefined") {
-    const components = document.querySelectorAll(
+    const els = document.querySelectorAll(
         "[component='clicks-example']"
     );
-    for (const component of components) {
-        component.replaceWith(<ClicksExample />);
+    for (const el of els) {
+        el.replaceWith(<ClicksExample />);
     }
 }
-
-//
-// Component
-//
 
 export function ClicksExample() {
     let clicks = 0;
@@ -35,48 +29,109 @@ export function ClicksExample() {
 }`,
 });
 
-const build_scan = await CodeSnippet({
-	language: "ts",
+const complex_island = await CodeSnippet({
+	language: "tsx",
 	show_line_numbers: false,
-	content: `// build.ts scans for "hydrate" directive
-async function getClientComponents(dir) {
-    const entries = await readdir(dir, { recursive: true });
-    const client_components = [];
+	content: `// Complex island: tabs.tsx
+"hydrate";
 
-    for (const entry of entries) {
-        const content = await readFile(file_path, "utf-8");
-        const first_line = content.trimStart().split("\\n")[0];
+//
+// Client-side hydration
+//
 
-        if (first_line === '"hydrate";') {
-            client_components.push(file_path);
-        }
-    }
-    return client_components;
+hydrateComponents<TabsMeta>("tabs", (el, props) => {
+	const panel_elements = Array.from(el.querySelectorAll("[data-tab-panel]"));
+
+	const items: TabItem[] = props.items.map((item, i) => ({
+		...item,
+		content: panel_elements[i]?.innerHTML || "",
+	}));
+
+	el.replaceWith(
+		<Tabs active={props.active} class={props.class} items={items} />,
+	);
+});
+
+//
+// Component
+//
+
+export function Tabs({ active, items, class: classes }: TabsProps) {
+	let current_tab = active;
+
+	const meta: TabsMeta = {
+		active,
+		class: classes,
+		items: items.map(({ content, ...rest }) => rest),
+	};
+
+	return (
+		<section
+			component="tabs"
+			props={!IS_CLIENT ? encodeProps(meta) : null}
+			class={cn(
+				"relative grid w-full shadow-[0_0_0_1px_var(--color-line)]",
+				classes,
+			)}
+		>
+			<div class="flex w-full overflow-x-auto hide-scrollbars relative z-10">
+				{items.map((item) => (
+					<button
+						type="button"
+						data-tab={item.name}
+						onClick={() => {
+							current_tab = item.name;
+						}}
+						class={() =>
+							cn(
+								"flex whitespace-nowrap shrink-0 items-center justify-center px-5 min-w-16 h-7 border border-t-0 first:border-l-0 bg-base",
+								current_tab === item.name
+									? "border-line relative z-20 bg-surface-code border-b-transparent"
+									: "border-transparent border-b-line hover:cursor-pointer",
+							)
+						}
+					>
+						{item.label}
+					</button>
+				))}
+				<ScrollOverlay class="border-b border-line grow" />
+			</div>
+			{items.map((item) => (
+				<div
+					data-tab-panel={item.name}
+					class={() =>
+						cn(
+							"w-full grid overflow-hidden bg-surface-code",
+							current_tab !== item.name && "hidden",
+							item.class,
+						)
+					}
+					innerHTML={item.content}
+				/>
+			))}
+		</section>
+	);
 }
-
-// These get bundled separately for the browser
-const result = await Bun.build({
-    entrypoints: client_entrypoints,
-    target: "browser",
-    splitting: true,
-});`,
+`,
 });
 
 export default function () {
 	return (
-		<SlideLayout title="Island Hydration" slide_number={5} total_slides={8}>
+		<SlideLayout title="Island Hydration" slide_number={5} total_slides={6}>
 			<h1 class="text-xl">ISLAND HYDRATION</h1>
-			<p>
-				Components with the "hydrate" directive get bundled as client JS. On
-				page load, they find their server-rendered placeholder and replace it
-				with a live interactive version.
-			</p>
+			<p>Each page is treated as a static entry point for HTML generation.<br/>Files with a "hydrate" directive get bundled as client JS.</p>
 			<div class="grid grid-cols-2 gap-4">
-				<div class="border border-line bg-surface-code overflow-auto max-h-96">
-					{hydrate_example}
+				<div class="flex flex-col gap-2">
+					<p class="text-fg-soft">Simple (no props)</p>
+					<div class="border border-line bg-surface-code overflow-auto max-h-96">
+						{simple_island}
+					</div>
 				</div>
-				<div class="border border-line bg-surface-code overflow-auto max-h-96">
-					{build_scan}
+				<div class="flex flex-col gap-2">
+					<p class="text-fg-soft">With props</p>
+					<div class="border border-line bg-surface-code overflow-auto max-h-96">
+						{complex_island}
+					</div>
 				</div>
 			</div>
 		</SlideLayout>

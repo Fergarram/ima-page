@@ -1,33 +1,64 @@
 import { SlideLayout } from "@/components/slide-layout";
+import { CodeSnippet } from "@/components/code-snippet";
+
+const jsx_runtime = await CodeSnippet({
+	language: "ts",
+	show_line_numbers: false,
+	content: `// simplified version
+
+import { useTags, useStaticTags } from "ima";
+
+const is_static = typeof window === "undefined";
+const tags = is_static ? useStaticTags() : useTags();
+
+export function jsx(tag, props) {
+    if (typeof tag === "function") return tag(props);
+
+    const { children, ...attrs } = props;
+    return tags[tag](attrs, ...children);
+}`,
+});
+
+const dual_mode = await CodeSnippet({
+	language: "tsx",
+	show_line_numbers: false,
+	content: `export function Clicker() {
+    let clicks = 0;
+
+    return (
+        <button onclick={() => clicks++}>
+            {() => \`\${clicks} clicks\`}
+        </button>
+    );
+}
+
+
+
+
+`,
+});
 
 export default function () {
 	return (
-		<SlideLayout title="The Problem" slide_number={3} total_slides={8}>
-			<h1 class="text-xl">THE PROBLEM WITH TYPICAL FRAMEWORKS</h1>
-			<div class="flex flex-col gap-6">
-				<p>
-					When building interactive apps (games, canvases, maps,
-					visualizations), you already have complex state. Frameworks add
-					another layer:
-				</p>
-				<div class="grid grid-cols-2 gap-4">
-					<div class="border border-line p-4 flex flex-col gap-2">
-						<p class="text-highlight">React / Vue / Svelte</p>
-						<ol class="text-fg-soft">
-							<li>useState, useEffect, lifecycle hooks</li>
-							<li>Stale closure bugs</li>
-							<li>State sync between your app and the framework</li>
-							<li>Re-render mental model overhead</li>
-						</ol>
+		<SlideLayout title="Ima + JSX" slide_number={3} total_slides={6}>
+			<h1 class="text-xl">IMA + JSX</h1>
+			<ol>
+				<li>Bun compiles JSX into function calls.</li>
+				<li>If runtime is server, those functions return strings.</li>
+				<li>If runtime is browser, those functions return DOM elements.</li>
+			</ol>
+
+			<div class="grid grid-cols-2 gap-4">
+				<div class="flex flex-col gap-2">
+					<p class="text-fg-soft">JSX runtime</p>
+					<div class="border border-line bg-surface-code overflow-auto">
+						{jsx_runtime}
 					</div>
-					<div class="border border-line p-4 flex flex-col gap-2">
-						<p class="text-highlight">Ima</p>
-						<ol class="text-fg-soft">
-							<li>Plain variables</li>
-							<li>Always reads current value (polled each frame)</li>
-							<li>Your app state IS the UI state</li>
-							<li>No lifecycle, no hooks, no subscriptions</li>
-						</ol>
+				</div>
+				<div class="flex flex-col gap-2">
+					<p class="text-fg-soft">JSX example</p>
+					<div class="border border-line bg-surface-code overflow-auto">
+						{dual_mode}
 					</div>
 				</div>
 			</div>

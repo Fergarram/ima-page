@@ -1,52 +1,43 @@
 import { SlideLayout } from "@/components/slide-layout";
-import { CodeSnippet } from "@/components/code-snippet";
-
-const pipeline = await CodeSnippet({
-	language: "text",
-	show_line_numbers: false,
-	content: `Build Pipeline
-==============
-
-src/
-├── pages/           → Static HTML pages (SSG)
-│   ├── index.tsx    → dist/index.html
-│   └── examples/
-│       └── index.tsx → dist/examples/index.html
-├── components/      → Shared components
-│   ├── header.tsx   → Server only (no directive)
-│   ├── tabs.tsx     → "hydrate" → bundled for browser
-│   └── clicks.tsx   → "hydrate" → bundled for browser
-├── sections/        → Page sections (server only)
-├── lib/
-│   ├── ima.ts       → Core library
-│   ├── jsx-runtime.ts → JSX → ima bridge
-│   └── hydration.ts → Client hydration helpers
-└── global.css       → Tailwind CSS
-
-                    ┌──────────────┐
-                    │   bun build  │
-                    └──────┬───────┘
-                           │
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-         HTML pages   Client JS   global.css
-        (SSG output)  (islands)  (Tailwind)
-              │            │            │
-              └────────────┼────────────┘
-                           ▼
-                        dist/`,
-});
 
 export default function () {
 	return (
-		<SlideLayout title="Build Pipeline" slide_number={6} total_slides={8}>
-			<h1 class="text-xl">STATIC BUILD PIPELINE</h1>
-			<p>
-				Single build.ts file. No webpack, no vite, no framework CLI. Just Bun's
-				native bundler with the Tailwind plugin.
-			</p>
-			<div class="border border-line bg-surface-code overflow-auto">
-				{pipeline}
+		<SlideLayout title="Pros, Cons, Todos" slide_number={6} total_slides={6}>
+			<h1 class="text-xl">OVERVIEW</h1>
+			<div class="grid grid-cols-3 gap-4">
+				<div class="flex flex-col gap-3">
+					<p class="uppercase">Pros</p>
+					<ol class="text-fg-soft">
+						<li>All pros from using Ima</li>
+						<li>Zero framework overhead: just Bun + Ima</li>
+						<li>The build system is readable, hackable code</li>
+						<li>Same JSX works at build time and in browser</li>
+						<li>Island hydration keeps client JS minimal</li>
+					</ol>
+				</div>
+				<div class="flex flex-col gap-3">
+					<p class="uppercase">Cons</p>
+					<ol class="text-fg-soft">
+						<li>No ecosystem: everything is manual</li>
+						<li>LLMs are biased towards React-like code with JSX</li>
+						<li>Hydration pattern requires manual wiring</li>
+						<li>You maintain the build script yourself</li>
+						<li>New mental model for reactivity</li>
+					</ol>
+				</div>
+				<div class="flex flex-col gap-3">
+					<p class="uppercase">Todos</p>
+					<ol class="text-fg-soft">
+						<li>Cloudflare Workers adapter for SSR (WIP)</li>
+						<li>More real-world examples, guides, etc</li>
+						<li>Create NPM packages and shit</li>
+					</ol>
+				</div>
+			</div>
+			<hr />
+			<div class="flex flex-col gap-2 items-center text-center">
+				<p>Source: github.com/fergarram/ima-page</p>
+				<p class="text-fg-soft">Questions?</p>
 			</div>
 		</SlideLayout>
 	);
