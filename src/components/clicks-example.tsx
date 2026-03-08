@@ -24,7 +24,7 @@ export function ClicksExample() {
 			<button
 				type="button"
 				onclick={() => clicks++}
-				class="bg-white text-black px-2 py-0.5 flex items-center justify-center"
+				class="bg-surface-soft hover:bg-surface/30 border border-line text-fg px-2.5 py-1 flex items-center justify-center"
 			>
 				{() => `${clicks} clicks`}
 			</button>

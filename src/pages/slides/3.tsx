@@ -34,7 +34,6 @@ const dual_mode = await CodeSnippet({
 
 
 
-
 `,
 });
 

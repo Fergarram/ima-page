@@ -28,6 +28,7 @@ export default function () {
 				<div class="flex flex-col gap-3">
 					<p class="uppercase">Todos</p>
 					<ol class="text-fg-soft">
+						<li>Try Astro + Ima</li>
 						<li>Cloudflare Workers adapter for SSR (WIP)</li>
 						<li>More real-world examples, guides, etc</li>
 						<li>Create NPM packages and shit</li>
