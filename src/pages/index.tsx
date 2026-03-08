@@ -1,6 +1,5 @@
 import { Header } from "@/components/header";
 import { cn } from "@/lib/cn";
-import Examples from "@/sections/examples";
 import Readme from "@/sections/readme";
 import Source from "@/sections/source";
 

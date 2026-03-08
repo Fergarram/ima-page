@@ -36,13 +36,13 @@ const sandbox = [
 			language: "js",
 			content: `let count = 0;
 
-const app = <div>
+const main_el = <main>
 	<button onclick={() => count++}>
 		{() => \`\${count} clicks\`}
 	</button>
-</div>;
+</main>;
 
-document.body.appendChild(app);
+document.body.appendChild(main_el);
 `,
 		}),
 	},
@@ -52,11 +52,11 @@ document.body.appendChild(app);
 		content: await CodeSnippet({
 			language: "js",
 			content: `import { useTags } from "ima";
-const { div, button } = useTags();
+const { main, button } = useTags();
 
 let count = 0;
 
-const app = div(
+const main_el = main(
 	button(
 		{
 			onclick: () => count++
@@ -65,7 +65,7 @@ const app = div(
 	),
 );
 
-document.body.appendChild(app);
+document.body.appendChild(main_el);
 `,
 		}),
 	},
