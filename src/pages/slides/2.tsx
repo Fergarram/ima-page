@@ -23,8 +23,8 @@ document.body.appendChild(ui);`,
 
 export default function () {
 	return (
-		<SlideLayout title="Ima Recap" slide_number={2} total_slides={6}>
-			<h1 class="text-xl">IMA RECAP</h1>
+		<SlideLayout title="Ima Recap" slide_number={2} total_slides={7}>
+			<h1 class="text-lg">IMA RECAP</h1>
 			<div class="flex flex-col gap-4">
 				<p>Ima (今, "now" in Japanese) is a ~555 line UI rendering library.</p>
 				<ol class="text-fg-soft">

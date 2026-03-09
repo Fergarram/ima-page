@@ -5,9 +5,9 @@ export default function () {
 		<SlideLayout
 			title="build.ts as Framework"
 			slide_number={4}
-			total_slides={6}
+			total_slides={7}
 		>
-			<h1 class="text-xl">BUN BUILD.TS AS A FRAMEWORK</h1>
+			<h1 class="text-lg">BUN BUILD.TS AS A FRAMEWORK</h1>
 			<p>Static site generation can fit in a small bun script.</p>
 			<a class="text-highlight! underline" href="/">
 				LIVE EXAMPLE

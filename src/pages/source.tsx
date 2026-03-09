@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { cn } from "@/lib/cn";
 import Readme from "@/sections/readme";
+import Source from "@/sections/source";
 
 export default function () {
 	return (
@@ -21,7 +22,7 @@ export default function () {
 							"*:max-w-article",
 						)}
 					>
-						<Readme />
+						<Source />
 					</article>
 					<footer class="flex flex-col items-center py-8">
 						<p>

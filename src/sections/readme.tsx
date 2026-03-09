@@ -9,8 +9,11 @@ const download_instructions = [
 		content: await CodeSnippet({
 			language: "bash",
 			show_line_numbers: false,
-			content: `# Single file download
-curl https://github.com/Fergarram/ima/raw/refs/heads/main/ima.js > ima.js
+			content: `# JavaScript ES Module
+curl https://cdn.jsdelivr.net/npm/@fergarram/ima/ima.js > ima.js
+
+# TypeScript ES Module
+curl https://cdn.jsdelivr.net/npm/@fergarram/ima/ima.ts > ima.ts
 
 # NPM
 bun add @fergarram/ima`,
@@ -75,55 +78,69 @@ export default function () {
 	return (
 		<>
 			<h1 class="md:text-center">
-				A lightweight immediate-mode inspired UI rendering library for the web.
+				An immediate-mode inspired UI rendering library for the web.
 			</h1>
 			<div class="w-full grid">
 				<Tabs active="jsx" items={sandbox} />
 				<ClicksExample />
 			</div>
 			<p>
-				Meaning "now" in Japanese, Ima is written in ~555 lines of JavaScript,
-				it makes it easy to compose DOM-based reactive UIs without special state
-				management nonsense.
+				Meaning "now" in Japanese, Ima is written in{" "}
+				<a href="/source">~555 lines of TypeScript</a>, it makes it easy to
+				compose DOM-based reactive UIs without special state management
+				nonsense.
 			</p>
 			<p>
-				It runs in any major JavaScript runtime and can be easily extended to
-				use alternative rendering backends.
+				It runs in any major JavaScript runtime and provides two main rendering
+				outputs: html strings and regular DOM elements.
 			</p>
 			<p>
-				You can download it as a single JS file or import it as an NPM package.
+				You can download it as a single TypeScript or JavaScript file or import
+				it as an NPM package.
 			</p>
 			<Tabs active="manual" items={download_instructions} />
 			<h2>WHY IMA EXISTS</h2>
 			<p>
-				If you’ve ever done a less conventional type of websites like
-				interactive visualizations, games, canvas-based editors, maps or
-				anything that requires careful consideration of performance, you
-				probably know how painful it is to sync your app state with existing UI
-				frameworks systems. Systems like those of react, vue, etc.
+				If you’ve ever done a less conventional type of website like interactive
+				visualizations, games, canvas-based editors, maps or anything that
+				requires careful consideration of performance, you probably know how
+				painful it is to sync your app state with existing UI framework systems.
 			</p>
 			<p>
 				Your interactive thing is already complex enough. The last thing you
-				want is having to add a whole layer of state management hell just to
-				render some divs and buttons on top.
+				want is having to add (and learn) a whole layer of state management hell
+				just to render some divs and buttons on top.
 			</p>
 			<p>
-				We can do better. As a matter of fact, people are already doing better
-				UI systems, they're called{" "}
+				We can do better. As a matter of fact, people in other industries are
+				already doing better UI systems using an{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Immediate_mode_(computer_graphics)#Immediate_mode_GUI"
 					rel="noopener noreferrer"
 					target="_blank"
 				>
-					immediate-mode GUIs
-				</a>
-				.
+					immediate-mode
+				</a>{" "}
+				approach.
 			</p>
 			<p>
-				How we can apply it to web dev is very simple. Structure your state
-				however works best for your application. Then, each frame, recreate your
-				interface based on the current state. Your UI components can read this
-				data and modify it directly in response to events like mouse clicks.
+				Sadly for us JavaScript enjoyers, we can't change the retained-mode
+				nature of the DOM. But we can take some inspiration from immediate-mode
+				style APIs.
+			</p>
+			<h2>IMMEDIATE-MODE REACTIVITY</h2>
+			<p>
+				The main issue with existing systems is the amount of abstraction layers
+				required just to get reactivity working.
+			</p>
+			<p>
+				You have to learn a custom API to do what should be a simple variable
+				assignment or look up. It gets worse when you deal with objects, where
+				you end up jumping through hoops to update/read nested state.
+			</p>
+			<p>
+				With Ima, there is no state management API you need to follow. Structure
+				your state however works best for your application. Then, if you need your UI to show the most up-to-date value of your state, pass a callback that will run each frame and read from your state.
 			</p>
 			<p>
 				Because this happens each frame, you don’t have a lifecycle to manage,

@@ -14,7 +14,7 @@ const code_snippet = await CodeSnippet({
 export default function () {
 	return (
 		<>
-			<h2 id="source">SOURCE</h2>
+			<h1 id="source">HOW IMA WORKS</h1>
 			<p>Let me give you a walkthrough of the source code and how it works.</p>
 			<div class="max-w-4xl! bg-surface-code border border-line px-0! py-1">
 				{code_snippet}

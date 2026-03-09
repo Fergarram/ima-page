@@ -39,8 +39,8 @@ const dual_mode = await CodeSnippet({
 
 export default function () {
 	return (
-		<SlideLayout title="Ima + JSX" slide_number={3} total_slides={6}>
-			<h1 class="text-xl">IMA + JSX</h1>
+		<SlideLayout title="Ima + JSX" slide_number={3} total_slides={7}>
+			<h1 class="text-lg">IMA + JSX</h1>
 			<ol>
 				<li>Bun compiles JSX into function calls.</li>
 				<li>If runtime is server, those functions return strings.</li>
