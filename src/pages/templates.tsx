@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 import { cn } from "@/lib/cn";
-import Examples from "@/sections/examples";
+import Templates from "@/sections/templates";
 // import Readme from "@/sections/readme";
 // import Source from "@/sections/source";
 
@@ -10,7 +10,7 @@ export default function () {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<title>Ima Examples</title>
+				<title>Templates - IMA</title>
 				<link rel="stylesheet" href="/global.css" />
 			</head>
 			<body>
@@ -24,7 +24,7 @@ export default function () {
 						)}
 					>
 						{/*<Readme />*/}
-						<Examples />
+						<Templates />
 						{/*<Source />*/}
 					</article>
 					<footer class="flex flex-col items-center py-8">

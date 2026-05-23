@@ -15,7 +15,7 @@ const code_snippet = await CodeSnippet({
 export default function () {
 	return (
 		<>
-			<h2 id="examples">EXAMPLES</h2>
+			<h2 id="templates">TEMPLATES</h2>
 			<ol class="text-fg-soft">
 				<li>
 					<a href="#static-website">Static website</a>

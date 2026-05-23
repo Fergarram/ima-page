@@ -14,16 +14,13 @@ export function Header() {
 							<a href="/">README</a>
 						</li>
 						<li>
-							<a href="/examples">Examples</a>
+							<a href="/templates">Templates</a>
 						</li>
 						<li>
 							<a href="/source">Source</a>
 						</li>
 						<li>
-							<a href="/tools">Tools</a>
-						</li>
-						<li>
-							<a href="/blog">Blog</a>
+							<a href="/gallery">Gallery</a>
 						</li>
 					</ul>
 					<ScrollOverlay class="md:hidden" />

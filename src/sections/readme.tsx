@@ -10,10 +10,10 @@ const download_instructions = [
 			language: "bash",
 			show_line_numbers: false,
 			content: `# JavaScript ES Module
-curl https://cdn.jsdelivr.net/npm/@fergarram/ima/ima.js > ima.js
+curl https://fernando.computer/system/modules/ima.js > ima.js
 
 # TypeScript ES Module
-curl https://cdn.jsdelivr.net/npm/@fergarram/ima/ima.ts > ima.ts
+curl https://fernando.computer/system/modules/ima.ts > ima.ts
 
 # NPM
 bun add @fergarram/ima`,
@@ -150,7 +150,7 @@ export default function () {
 			<p>That’s it. So, how can we make UI frameworks be like this?</p>
 			<p>Ima is one answer to this question.</p>
 			<p>
-				Take a look at some <a href="/examples">examples</a>, and tell me —
+				Take a look at some <a href="/templates">templates</a>, and tell me —
 				doesn't it feel good to not deal with state management?
 			</p>
 		</>

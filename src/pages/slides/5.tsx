@@ -7,7 +7,7 @@ const diagram = await CodeSnippet({
 	content: `src/
 ├── pages/                    ─── Bun entry points ──→ dist/*.html
 │   ├── index.tsx
-│   ├── examples/index.tsx
+│   ├── templates/index.tsx
 │
 ├── components/               ─── runtime agnostic by default, can be imported anywhere
 │   ├── header.tsx
