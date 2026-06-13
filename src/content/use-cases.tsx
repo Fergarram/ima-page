@@ -15,22 +15,26 @@ const code_snippet = await CodeSnippet({
 export default function () {
 	return (
 		<>
-			<h2 id="templates">TEMPLATES</h2>
+			<h1>USE CASES</h1>
+			<p>
+				There are a few examples I want to show case that really point to the
+				benefits and veratility of using Ima.
+			</p>
 			<ol class="text-fg-soft">
 				<li>
-					<a href="#static-website">Static website</a>
+					<a href="#canvas-apps"> Canvas apps (per-frame interactivity)</a>
 				</li>
 				<li>
-					<a href="#clicker-game">Clicker game</a>
+					<a href="#island-hydration">Island hydration</a>
 				</li>
 				<li>
-					<a href="#infinite-canvas">Infinite canvas</a>
+					<a href="#service-workers">Service worker rendering</a>
 				</li>
 				<li>
-					<a href="#game-engine">Game engine</a>
+					<a href="#ssg">Static site generation</a>
 				</li>
 				<li>
-					<a href="#map-app">Map app</a>
+					<a href="#ssr">Server side rendering</a>
 				</li>
 			</ol>
 			<h3 id="static-website">STATIC WEBSITE</h3>

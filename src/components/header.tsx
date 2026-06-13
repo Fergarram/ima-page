@@ -14,13 +14,16 @@ export function Header() {
 							<a href="/">README</a>
 						</li>
 						<li>
-							<a href="/templates">Templates</a>
+							<a href="/use-cases">Use cases</a>
 						</li>
 						<li>
-							<a href="/source">Source</a>
-						</li>
-						<li>
-							<a href="/gallery">Gallery</a>
+							<a
+								target="_blank"
+								rel="noopener noref"
+								href="https://github.com/Fergarram/ima"
+							>
+								Source
+							</a>
 						</li>
 					</ul>
 					<ScrollOverlay class="md:hidden" />

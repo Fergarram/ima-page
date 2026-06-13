@@ -1,7 +1,6 @@
 import { Header } from "@/components/header";
 import { cn } from "@/lib/cn";
-import Readme from "@/sections/readme";
-import Source from "@/sections/source";
+import UseCases from "@/content/use-cases";
 
 export default function () {
 	return (
@@ -9,7 +8,7 @@ export default function () {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<title>Ima — An immediate-mode inspired UI rendering library</title>
+				<title>Use cases - IMA</title>
 				<link rel="stylesheet" href="/global.css" />
 			</head>
 			<body>
@@ -22,7 +21,7 @@ export default function () {
 							"*:max-w-article",
 						)}
 					>
-						<Source />
+						<UseCases />
 					</article>
 					<footer class="flex flex-col items-center py-8">
 						<p>

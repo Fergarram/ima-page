@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 import { cn } from "@/lib/cn";
-import Readme from "@/sections/readme";
+import Readme from "@/content/readme";
 
 export default function () {
 	return (

@@ -101,10 +101,14 @@ export default function () {
 			<Tabs active="manual" items={download_instructions} />
 			<h2>WHY IMA EXISTS</h2>
 			<p>
+				First of all, if you don't work with JavaScript, this is not for you.
+			</p>
+			<p>
 				If you’ve ever done a less conventional type of website like interactive
 				visualizations, games, canvas-based editors, maps or anything that
-				requires careful consideration of performance, you probably know how
-				painful it is to sync your app state with existing UI framework systems.
+				requires careful consideration of performance, but you can't escape
+				using JavaScript, you probably know how painful it is to sync your app
+				state with existing UI framework systems.
 			</p>
 			<p>
 				Your interactive thing is already complex enough. The last thing you
@@ -140,7 +144,9 @@ export default function () {
 			</p>
 			<p>
 				With Ima, there is no state management API you need to follow. Structure
-				your state however works best for your application. Then, if you need your UI to show the most up-to-date value of your state, pass a callback that will run each frame and read from your state.
+				your state however works best for your application. Then, if you need
+				your UI to show the most up-to-date value of your state, pass a callback
+				that will run each frame and read from your state.
 			</p>
 			<p>
 				Because this happens each frame, you don’t have a lifecycle to manage,
@@ -150,8 +156,55 @@ export default function () {
 			<p>That’s it. So, how can we make UI frameworks be like this?</p>
 			<p>Ima is one answer to this question.</p>
 			<p>
-				Take a look at some <a href="/templates">templates</a>, and tell me —
+				Take a look at some <a href="/use-cases">use cases</a>, and tell me —
 				doesn't it feel good to not deal with state management?
+			</p>
+			<h2>ROADMAP TO V1</h2>
+			<p>
+				It currently sits at 0.9.0, I have been battle testing it for some time
+				now and there are 4 things I'm not happy with:
+			</p>
+			<ul>
+				<li>- JSX factory implementation</li>
+				<li>- The callback garbage collector</li>
+				<li>- Attribute truthy values</li>
+				<li>- class vs className</li>
+			</ul>
+
+			<p>
+				The JSX implementation has one big issue. It doesn't support SVG
+				elements. I also don't love how it's handled by the external `ima-tsx`
+				module - I don't even think such module should exist.
+			</p>
+			<p>
+				And the garbage collector, aside from the fact that it shouldn't exist,
+				it currently checks for disconnected nodes every second or so and
+				removes callbacks.
+			</p>
+			<p>
+				I think first two will get fixed by a core change: doing parent first,
+				children second declaration order.
+			</p>
+			<p>
+				When we do `div(p(),Component())` the args resolve first and the parent
+				last. If we ran the parent code first, and the children after, we could
+				easily make all children of SVG element to be created with the NS
+				element creation funciton. And for the garbage collector, we could keep
+				reference of attached callbacks (potentially, would have to test).
+			</p>
+			<p>
+				There is an advantage I'm aware of if we do child first, parent last - it's less callbacks so it's faster. But another potential huge win would be we finally get a way to deal with nested reactive callbacks: at the very least we could detect them and throw a warning.
+			</p>
+			<p>
+				The remaining two issues are design problems. The attribute one has a
+				solution - we just follow what react does there. But for the class one,
+				I love how it feels to just say class="..." but it's not great when
+				destructuring props. Potential solution: allow both but in JSX we always
+				resolve to className for props destructuring.
+			</p>
+			<p>
+				I think solving those issues would make it as close as I can think of to
+				version 1.0.0.
 			</p>
 		</>
 	);
