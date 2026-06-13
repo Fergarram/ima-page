@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-	--color-base: #151515;
-	--color-surface-soft: #121212;
+	--color-base: #202020;
+	--color-surface-soft: #151515;
 	--color-surface-code: #101010;
 	--color-surface: #252525;
 	--color-fg: #ffffff;
 	--color-fg-soft: #929292;
-	--color-line: #222222;
+	--color-line: #303030;
 	--color-highlight: #aafee7;
 }
 

@@ -1,16 +1,16 @@
-import { CodeSnippet } from "@/components/code-snippet";
-import { EmbedPreview } from "@/components/embed-preview";
+// import { CodeSnippet } from "@/components/code-snippet";
+// import { EmbedPreview } from "@/components/embed-preview";
 import { Tabs } from "@/components/tabs";
 
-const res = await fetch(
-	"https://raw.githubusercontent.com/Fergarram/ima-page/refs/heads/main/src/components/tabs.tsx",
-);
-const ima_page_src = await res.text();
+// const res = await fetch(
+// 	"https://raw.githubusercontent.com/Fergarram/ima-page/refs/heads/main/src/components/tabs.tsx",
+// );
+// const ima_page_src = await res.text();
 
-const code_snippet = await CodeSnippet({
-	language: "tsx",
-	content: ima_page_src,
-});
+// const code_snippet = await CodeSnippet({
+// 	language: "tsx",
+// 	content: ima_page_src,
+// });
 
 export default function () {
 	return (
@@ -18,7 +18,7 @@ export default function () {
 			<h1>USE CASES</h1>
 			<p>
 				There are a few examples I want to show case that really point to the
-				benefits and veratility of using Ima.
+				benefits and versatility of Ima.
 			</p>
 			<ol class="text-fg-soft">
 				<li>
@@ -28,81 +28,66 @@ export default function () {
 					<a href="#island-hydration">Island hydration</a>
 				</li>
 				<li>
-					<a href="#service-workers">Service worker rendering</a>
-				</li>
-				<li>
 					<a href="#ssg">Static site generation</a>
 				</li>
 				<li>
 					<a href="#ssr">Server side rendering</a>
 				</li>
+				<li>
+					<a href="#service-workers">Service worker rendering</a>
+				</li>
 			</ol>
-			<h3 id="static-website">STATIC WEBSITE</h3>
+			<h2 id="canvas-apps">Canvas apps</h2>
 			<p>
-				This very website is built using Ima. It uses Bun to scan TSX files,
-				renders them to static HTML at build time, and automatically injects
-				client-side JavaScript for any components marked with "hydrate" like how
-				Next.js has the "use client" directive.
-			</p>
-			<p>
-				Although this is not a highly-interactive page, Ima still makes it feel
-				simpler and easier to compose static interfaces.
-			</p>
-			<p>
-				You can look at the full source code on GitHub at{" "}
-				<a
-					href="https://github.com/fergarram/ima-page"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					https://github.com/fergarram/ima-page
-				</a>
-				, but here is an example of a client component:
-			</p>
-			<Tabs
-				active="main"
-				// class="max-w-5xl!"
-				items={[
-					{
-						name: "main",
-						label: "main.tsx",
-						class: "h-128", // "h-[80dvh]",
-						content: code_snippet,
-					},
-				]}
-			/>
-			<h3 id="clicker-game">CLICKER GAME</h3>
-			<p>
-				I made a clicker game called "How the fuck will I pay this". It's an
-				incremental about paying debt. You can inspect the code and play with
-				it.
-			</p>
-			<p>BTW, the preview below is an iframe.</p>
-			<EmbedPreview
-				src="https://fernando.computer/games/how-the-fuck-will-i-pay-this"
-				title="How the fuck will I pay this"
-				editor_url="https://fernando.computer/games/how-the-fuck-will-i-pay-this/?clone-editor=true"
-			/>
-			<p>
-				This game was made in a weekend. It uses vanilla JS instead of JSX. It
-				also uses my{" "}
-				<a
-					href="https://github.com/Fergarram/om/blob/236646ee732e21e83e58712e2b7cb07405037723/system/modules/client/%40std/blob-loader.js"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					blob-loader.js
+				Ima was born out of the frustration I had with{" "}
+				<a href="https://vanjs.org/" target="_blank" rel="noopener noreferrer">
+					van.js
 				</a>{" "}
-				library to make the game self-contained and bundler-free.
+				when I was working on{" "}
+				<a
+					href="https://www.lamerider.app/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Lamerider
+				</a>{" "}
+				for a game jam. I made the game using my custom game engine, which is
+				just a wrapper around the 2D canvas API. I needed a UI layer for the
+				game and went with VanJS. Syncing the game state with van.state() was
+				very unreliable: elements would not react to state changes
+				unpredictably.
 			</p>
-			<h3 id="infinite-canvas">INFINITE CANVAS</h3>
-			<EmbedPreview
-				src="https://vps.fernando.computer/desktop"
-				title="Infinite Canvas"
-				editor_url="https://vps.fernando.computer/desktop?clone-editor=true"
-			/>
-			{/*<h3 id="game-engine">GAME ENGINE</h3>
-			<p>A game engine built with Ima.js.</p>*/}
+			<p>
+				At that time I didn't have ima, I only had Swan - the predecessor to
+				ima. So I switched to it instead and manually added event listeners
+				where needed.
+			</p>
+			<p>
+				TODO: Example that uses threejs or something else
+			</p>
+			<h2 id="island-hydration">Island hydration</h2>
+			<p>
+				With Ima, components are fully replaced rather than reconciled.
+				Hydration mismatches are impossible. Once the new element is in the DOM,
+				its reactive callbacks are automatically picked up by the global frame
+				loop with no mounting step or subscription wiring. Cleanup is also
+				automatic: when an element is removed from the DOM, its callbacks are
+				detected as disconnected and garbage collected.
+			</p>
+			<p>
+				When you mix this with Ima's static tag rendering, you get a powerful
+				tool for building HTML-based interfaces, whether rendering from server,
+				client, files or workers.
+			</p>
+
+			<h2 id="ssg">Static site generation</h2>
+			<p>TODO: Explain a bit and mention this site</p>
+
+			<h2 id="ssr">Server side rendering</h2>
+			<p>TODO: Explain a bit and mention Molar</p>
+
+			<h2 id="service-workers">Service worker rendering</h2>
+			<p> TODO: Explain in more depth and showcase app (maybe Shoaib's one)</p>
 		</>
 	);
 }

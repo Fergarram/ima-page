@@ -19,7 +19,7 @@ export function Header() {
 						<li>
 							<a
 								target="_blank"
-								rel="noopener noref"
+								rel="noopener noreferrer"
 								href="https://github.com/Fergarram/ima"
 							>
 								Source
