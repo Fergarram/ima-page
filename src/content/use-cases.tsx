@@ -1,6 +1,6 @@
 // import { CodeSnippet } from "@/components/code-snippet";
 // import { EmbedPreview } from "@/components/embed-preview";
-import { Tabs } from "@/components/tabs";
+// import { Tabs } from "@/components/tabs";
 
 // const res = await fetch(
 // 	"https://raw.githubusercontent.com/Fergarram/ima-page/refs/heads/main/src/components/tabs.tsx",
@@ -15,7 +15,13 @@ import { Tabs } from "@/components/tabs";
 export default function () {
 	return (
 		<>
-			<h1>USE CASES</h1>
+			<h1>
+				USE CASES
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					=========
+				</span>
+			</h1>
 			<p>
 				There are a few examples I want to show case that really point to the
 				benefits and versatility of Ima.
@@ -25,7 +31,7 @@ export default function () {
 					<a href="#canvas-apps"> Canvas apps (per-frame interactivity)</a>
 				</li>
 				<li>
-					<a href="#island-hydration">Island hydration</a>
+					<a href="hydration">Island hydration</a>
 				</li>
 				<li>
 					<a href="#ssg">Static site generation</a>
@@ -37,7 +43,13 @@ export default function () {
 					<a href="#service-workers">Service worker rendering</a>
 				</li>
 			</ol>
-			<h2 id="canvas-apps">Canvas apps</h2>
+			<h2 id="canvas-apps">
+				Canvas apps
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					===========
+				</span>
+			</h2>
 			<p>
 				Ima was born out of the frustration I had with{" "}
 				<a href="https://vanjs.org/" target="_blank" rel="noopener noreferrer">
@@ -62,10 +74,14 @@ export default function () {
 				ima. So I switched to it instead and manually added event listeners
 				where needed.
 			</p>
-			<p>
-				TODO: Example that uses threejs or something else
-			</p>
-			<h2 id="island-hydration">Island hydration</h2>
+			<p>TODO: Example that uses threejs or something else</p>
+			<h2 id="hydration">
+				Island hydration
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					================
+				</span>
+			</h2>
 			<p>
 				With Ima, components are fully replaced rather than reconciled.
 				Hydration mismatches are impossible. Once the new element is in the DOM,
@@ -80,13 +96,31 @@ export default function () {
 				client, files or workers.
 			</p>
 
-			<h2 id="ssg">Static site generation</h2>
+			<h2 id="ssg">
+				Static site generation
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					======================
+				</span>
+			</h2>
 			<p>TODO: Explain a bit and mention this site</p>
 
-			<h2 id="ssr">Server side rendering</h2>
+			<h2 id="ssr">
+				Server side rendering
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					=====================
+				</span>
+			</h2>
 			<p>TODO: Explain a bit and mention Molar</p>
 
-			<h2 id="service-workers">Service worker rendering</h2>
+			<h2 id="service-workers">
+				Service worker rendering
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					========================
+				</span>
+			</h2>
 			<p> TODO: Explain in more depth and showcase app (maybe Shoaib's one)</p>
 		</>
 	);

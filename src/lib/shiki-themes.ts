@@ -1,144 +1,78 @@
 import type { ThemeRegistration } from "shiki";
 
 //
-// Shiki themes
+// Shiki theme
+//
+// Colors reference the dedicated --code-* CSS variables in global.css. Those
+// variables hold the original syntax palette and switch between light and dark
+// via prefers-color-scheme, so code blocks adapt automatically.
 //
 
-export const shiki_minimal_dark: ThemeRegistration = {
-	name: "minimal-dark",
+export const shiki_minimal: ThemeRegistration = {
+	name: "minimal",
 	type: "dark",
 	colors: {
-		"editor.background": "transparent",
-		"editor.foreground": "#ffffff",
-		"editor.lineHighlightBackground": "#aafee717",
-		"editorLineNumber.foreground": "#444444",
-		"editorLineNumber.activeForeground": "#cacaca",
-		"editorCursor.foreground": "#cacaca",
-		"editor.selectionBackground": "#aafee717",
+		"editor.background": "var(--code-bg)",
+		"editor.foreground": "var(--code-fg)",
+		"editor.lineHighlightBackground": "var(--code-line-highlight)",
+		"editorLineNumber.foreground": "var(--code-line-number)",
+		"editorLineNumber.activeForeground": "var(--code-line-number-active)",
+		"editorCursor.foreground": "var(--code-cursor)",
+		"editor.selectionBackground": "var(--code-selection)",
 	},
 	tokenColors: [
 		{
 			scope: ["comment", "punctuation.definition.comment"],
 			settings: {
-				foreground: "#aafee7",
+				foreground: "var(--code-comment)",
 			},
 		},
 		{
 			scope: ["variable", "variable.other"],
 			settings: {
-				foreground: "#ffffff",
+				foreground: "var(--code-fg)",
 			},
 		},
 		{
 			scope: ["string", "punctuation.definition.string"],
 			settings: {
-				foreground: "#d0d0d0",
+				foreground: "var(--code-string)",
 			},
 		},
 		{
 			scope: ["constant.numeric", "constant.language.boolean", "constant.language.null"],
 			settings: {
-				foreground: "#d0d0d0",
+				foreground: "var(--code-string)",
 			},
 		},
 		{
 			scope: ["keyword", "storage.type", "storage.modifier"],
 			settings: {
-				foreground: "#a0a0a0",
+				foreground: "var(--code-keyword)",
 			},
 		},
 		{
 			scope: ["keyword.operator"],
 			settings: {
-				foreground: "#ffffff",
+				foreground: "var(--code-fg)",
 			},
 		},
 		{
 			scope: ["entity.name.type", "entity.name.class", "support.class"],
 			settings: {
-				foreground: "#ffffff",
+				foreground: "var(--code-fg)",
 			},
 		},
 		{
 			scope: ["entity.name.tag", "punctuation.definition.tag"],
 			settings: {
-				foreground: "#ffffff",
+				foreground: "var(--code-fg)",
 			},
 		},
 		{
 			scope: ["entity.other.attribute-name"],
 			settings: {
-				foreground: "#ffffff",
-			},
-		},
-	],
-};
-
-export const shiki_minimal_light: ThemeRegistration = {
-	name: "minimal-light",
-	type: "light",
-	colors: {
-		"editor.background": "#ffffff",
-		"editor.foreground": "#1a1a1a",
-		"editor.lineHighlightBackground": "#0066ff0a",
-		"editorLineNumber.foreground": "#999999",
-		"editorLineNumber.activeForeground": "#1a1a1a",
-		"editorCursor.foreground": "#1a1a1a",
-		"editor.selectionBackground": "#0066ff0a",
-	},
-	tokenColors: [
-		{
-			scope: ["comment", "punctuation.definition.comment"],
-			settings: {
-				foreground: "#008080",
-			},
-		},
-		{
-			scope: ["variable", "variable.other"],
-			settings: {
-				foreground: "#1a1a1a",
-			},
-		},
-		{
-			scope: ["string", "punctuation.definition.string"],
-			settings: {
-				foreground: "#505050",
-			},
-		},
-		{
-			scope: ["constant.numeric", "constant.language.boolean", "constant.language.null"],
-			settings: {
-				foreground: "#505050",
-			},
-		},
-		{
-			scope: ["keyword", "storage.type", "storage.modifier"],
-			settings: {
-				foreground: "#707070",
-			},
-		},
-		{
-			scope: ["keyword.operator"],
-			settings: {
-				foreground: "#1a1a1a",
-			},
-		},
-		{
-			scope: ["entity.name.type", "entity.name.class", "support.class"],
-			settings: {
-				foreground: "#1a1a1a",
-			},
-		},
-		{
-			scope: ["entity.name.tag", "punctuation.definition.tag"],
-			settings: {
-				foreground: "#1a1a1a",
-			},
-		},
-		{
-			scope: ["entity.other.attribute-name"],
-			settings: {
-				foreground: "#1a1a1a",
+				foreground: "var(--code-fg)",
 			},
 		},
 	],

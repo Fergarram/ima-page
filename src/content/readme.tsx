@@ -86,9 +86,15 @@ export default function () {
 			</div>
 			<p>
 				Meaning "now" in Japanese, Ima is written in{" "}
-				<a href="/source">~555 lines of TypeScript</a>, it makes it easy to
-				compose DOM-based reactive UIs without special state management
-				nonsense.
+				<a
+					target="_blank"
+					rel="noopener noreferrer"
+					href="https://github.com/Fergarram/ima"
+				>
+					~555 lines of TypeScript
+				</a>
+				, it makes it easy to compose DOM-based reactive UIs without special
+				state management nonsense.
 			</p>
 			<p>
 				It runs in any major JavaScript runtime and provides two main rendering
@@ -99,12 +105,18 @@ export default function () {
 				it as an NPM package.
 			</p>
 			<Tabs active="manual" items={download_instructions} />
-			<h2>WHY IMA EXISTS</h2>
+			<h2>
+				WHY IMA EXISTS
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					==============
+				</span>
+			</h2>
 			<p>
 				First of all, if you don't work with JavaScript, this is not for you.
 			</p>
 			<p>
-				If you’ve ever done a less conventional type of website like interactive
+				If you've ever done a less conventional type of website like interactive
 				visualizations, games, canvas-based editors, maps or anything that
 				requires careful consideration of performance, but you can't escape
 				using JavaScript, you probably know how painful it is to sync your app
@@ -132,7 +144,13 @@ export default function () {
 				nature of the DOM. But we can take some inspiration from immediate-mode
 				style APIs.
 			</p>
-			<h2>IMMEDIATE-MODE REACTIVITY</h2>
+			<h2>
+				IMMEDIATE-MODE REACTIVITY
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					=========================
+				</span>
+			</h2>
 			<p>
 				The main issue with existing systems is the amount of abstraction layers
 				required just to get reactivity working.
@@ -149,17 +167,23 @@ export default function () {
 				that will run each frame and read from your state.
 			</p>
 			<p>
-				Because this happens each frame, you don’t have a lifecycle to manage,
+				Because this happens each frame, you don't have a lifecycle to manage,
 				or use the right getter to make sure your data is not stale. No, you
 				simply read whatever data you need each frame and render it.
 			</p>
-			<p>That’s it. So, how can we make UI frameworks be like this?</p>
+			<p>That's it. So, how can we make UI frameworks be like this?</p>
 			<p>Ima is one answer to this question.</p>
 			<p>
 				Take a look at some <a href="/use-cases">use cases</a>, and tell me —
 				doesn't it feel good to not deal with state management?
 			</p>
-			<h2>ROADMAP TO V1</h2>
+			<h2>
+				ROADMAP TO V1
+				<br />
+				<span class="opacity-20" aria-hidden="true">
+					=============
+				</span>
+			</h2>
 			<p>
 				It currently sits at 0.9.0, I have been battle testing it for some time
 				now and there are 4 things I'm not happy with:
@@ -193,7 +217,10 @@ export default function () {
 				reference of attached callbacks (potentially, would have to test).
 			</p>
 			<p>
-				There is an advantage I'm aware of if we do child first, parent last - it's less callbacks so it's faster. But another potential huge win would be we finally get a way to deal with nested reactive callbacks: at the very least we could detect them and throw a warning.
+				There is an advantage I'm aware of if we do child first, parent last -
+				it's less callbacks so it's faster. But another potential huge win would
+				be we finally get a way to deal with nested reactive callbacks: at the
+				very least we could detect them and throw a warning.
 			</p>
 			<p>
 				The remaining two issues are design problems. The attribute one has a

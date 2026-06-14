@@ -9,6 +9,47 @@
 	--color-fg-soft: #929292;
 	--color-line: #303030;
 	--color-highlight: #aafee7;
+
+	/* Shiki syntax colors (kept separate from the UI palette) */
+	--code-bg: transparent;
+	--code-fg: #ffffff;
+	--code-comment: #aafee7;
+	--code-string: #d0d0d0;
+	--code-keyword: #a0a0a0;
+	--code-line-highlight: #aafee717;
+	--code-line-number: #444444;
+	--code-line-number-active: #cacaca;
+	--code-cursor: #cacaca;
+	--code-selection: #aafee717;
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--color-base: #ffffff;
+		--color-surface-soft: #f5f5f5;
+		--color-surface-code: #f0f0f0;
+		--color-surface: #f8f8f8;
+		--color-fg: #202020;
+		--color-fg-soft: #6d6d6d;
+		--color-line: #dcdcdc;
+		--color-highlight: #0a6e52;
+
+		/* Shiki syntax colors (light) */
+		--code-bg: transparent;
+		--code-fg: #1a1a1a;
+		--code-comment: #008080;
+		--code-string: #505050;
+		--code-keyword: #707070;
+		--code-line-highlight: #0066ff0a;
+		--code-line-number: #999999;
+		--code-line-number-active: #1a1a1a;
+		--code-cursor: #1a1a1a;
+		--code-selection: #0066ff0a;
+	}
+
+	header img {
+		filter: invert(1);
+	}
 }
 
 @theme {

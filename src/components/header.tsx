@@ -1,4 +1,3 @@
-import { Logo } from "@/components/logo";
 import { ScrollOverlay } from "@/components/scroll-overlay";
 
 export function Header() {
@@ -6,7 +5,7 @@ export function Header() {
 		<header class="px-5">
 			<div class="flex flex-col md:items-center gap-6 w-full max-w-article mx-auto">
 				<a href="/" aria-label="Home">
-					<Logo />
+					<img src="logo.svg" alt="Logo" />
 				</a>
 				<nav class="flex overflow-auto w-full md:w-fit hide-scrollbars relative">
 					<ul class="flex gap-8 uppercase">

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/cn";
-import { shiki_minimal_dark, shiki_minimal_light } from "@/lib/shiki-themes";
+import { shiki_minimal } from "@/lib/shiki-themes";
 import { codeToHtml } from "shiki";
 
 //
@@ -9,7 +9,6 @@ import { codeToHtml } from "shiki";
 type CodeSnippetProps = {
 	language: string;
 	content: string;
-	theme?: "dark" | "light";
 	show_line_numbers?: boolean;
 };
 
@@ -45,11 +44,11 @@ function computeLineNumberWidth(content: string): string {
 //
 
 export async function CodeSnippet(props: CodeSnippetProps) {
-	const { language, content, theme = "dark", show_line_numbers = true } = props;
+	const { language, content, show_line_numbers = true } = props;
 
 	let html = await codeToHtml(content, {
 		lang: language,
-		theme: theme === "dark" ? shiki_minimal_dark : shiki_minimal_light,
+		theme: shiki_minimal,
 	});
 
 	html = wrapUrlsInAnchors(html);
